@@ -1,40 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ConsoleApp5;
 
-namespace ConsoleApp5
+public class SuperHashTable<T>
 {
-    public class SuperHashTable<T>
+    private Item<T>[] items;
+    private Dictionary<string, Item<T>> lookupTable;
+
+    public SuperHashTable(int size)
     {
-        private Item<T>[] items;
+        items = new Item<T>[size];
 
-        public SuperHashTable(int size)
+        lookupTable = new Dictionary<string, Item<T>>();
+
+        for (int i = 0; i < items.Length; i++)
         {
-            items = new Item<T>[size];
+            items[i] = new Item<T>(i);
+        }
+    }
 
-            for (int i = 0; i < items.Length; i++)
+    public void Add(T item)
+    {
+        var key = GetHash(item.ToString());
+
+        if (items[key] == null)
+        {
+            items[key] = new Item<T>(key);
+        }
+
+        items[key].Nodes.Add(item);
+        lookupTable[item.ToString()] = items[key];
+    }
+
+    public bool Search(string name)
+    {
+        if (lookupTable.ContainsKey(name))
+        {
+            var item = lookupTable[name];
+
+            foreach (var node in item.Nodes)
             {
-                items[i] = new Item<T>(i);
+                if (node is Person person && person.Name == name)
+                {
+                    return true;
+                }
             }
         }
 
-        public void Add(T item)
-        {
-            var key = GetHash(item);
-            items[key].Nodes.Add(item);
-        }
+        return false;
+    }
 
-        public bool Search(T item)
-        {
-            var key = GetHash(item);
-            return items[key].Nodes.Contains(item);
-        }
-
-        private int GetHash(T item)
-        {
-            return item.GetHashCode() % items.Length;
-        }
+    private int GetHash(string item)
+    {
+        return Math.Abs(item.GetHashCode()) % items.Length;
     }
 }
