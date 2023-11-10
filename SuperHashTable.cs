@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,35 +7,34 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp5
 {
-    public class SuperHashTable<T>
+    public class SuperHashTable
     {
-        private Item<T>[] items;
-
-        public SuperHashTable(int size)
+        Hashtable openWith = new Hashtable();
+        public SuperHashTable()
         {
-            items = new Item<T>[size];
-
-            for (int i = 0; i < items.Length; i++)
+        }
+        public void Add(Person item)
+        {
+            if (openWith.ContainsKey(item.Name))
             {
-                items[i] = new Item<T>(i);
+            }
+            else
+            {
+                openWith.Add(item.Name, item);
             }
         }
 
-        public void Add(T item)
-        {
-            var key = GetHash(item);
-            items[key].Nodes.Add(item);
-        }
 
-        public bool Search(T item)
-        {
-            var key = GetHash(item);
-            return items[key].Nodes.Contains(item);
-        }
 
-        private int GetHash(T item)
+        /// <summary>
+        /// Search
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool Search(string name)
         {
-            return item.GetHashCode() % items.Length;
+            bool value = openWith.ContainsKey(name);
+            return value;
         }
     }
 }
