@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp5
 {
-   public class Item<T>
+    public class Item<T>
     {
-        public int Key { get; set; }
         public List<T> Nodes { get; set; }
 
-        public Item(int key)
+        public Item(int index)
         {
-            Key = key;
             Nodes = new List<T>();
         }
     }

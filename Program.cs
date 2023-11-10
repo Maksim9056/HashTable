@@ -22,13 +22,18 @@ namespace ConsoleApp5
 
             var superHashTable = new SuperHashTable();
             var person = new Person() { Name = "Вася", Age = 25, Gender = 0 };
+
             superHashTable.Add(new Person() { Name = "Петя", Age = 35, Gender = 0 });
             superHashTable.Add(new Person() { Name = "Андрей", Age = 15, Gender = 0 });
             superHashTable.Add(new Person() { Name = "Катя", Age = 18, Gender = 1 });
-            superHashTable.Add(person);
+            superHashTable.Add(new Person() { Name = "Катя", Age = 18, Gender = 1 });
 
+            superHashTable.Add(person);
+            Person person1 = new Person() { Name = "Вася" };
             Console.WriteLine(superHashTable.Search("Вася"));
-            Console.WriteLine(superHashTable.Search("Васяzz"));
+
+            Console.WriteLine(superHashTable.Search(new Person() { Name = "Вася", Age = 25, Gender = 0 }));
+            Console.WriteLine(superHashTable.Search(person));
 
             Console.ReadLine();
 
